@@ -67,14 +67,40 @@
 
         //if psswd.len == 4
         if(passwd.length == 4){
-            alert('form submitted,' + " " + passwd);
 
-            console.log("{{data}}");
+        
 
             if("{{data}}" == "sell"){
-                window.location.href='/register';
+                fetch("http://localhost:8080/api/locker/sale/password/check/1/" + passwd).then(
+                    (response)=>{
+                        if(response.status == 200){
+                            window.location.href='/register';
+                        }else{
+                            window.location.href='/';
+                        }
+                    }
+                );
+                
             }else if("{{data}}" == "buy"){
-                window.location.href='/preview';
+                fetch("http://localhost:8080/api/locker/buyer/password/check/1/"+passwd).then(
+                    (response)=>{
+                        if(response.status == 200){
+                            return response.json()                         
+                        }else{
+                            window.location.href='/';
+                        }
+                    }
+                ).then((json)=>{
+                    console.log(json)
+                    console.log(json.data)
+                    console.log(json.data.productId)
+                    const productId = json.data.productId
+                    window.location.href= '/preview/' + productId
+                    
+                
+                })
+                ;
+                
             }else{
                 window.location.href='/';
             }

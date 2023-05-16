@@ -31,9 +31,10 @@ def passwd():
 
 
 # 구매자 페이지
-@app.route('/preview')
-def preview():
-    return render_template('preview.html')
+@app.route('/preview/<product_id>')
+def preview(product_id):
+    productId = product_id
+    return render_template('preview.html', productId = productId)
 
 @app.route('/payment')
 def payment():

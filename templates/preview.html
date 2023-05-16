@@ -14,7 +14,7 @@
       <h3 style="padding-left: 20px; font-weight: 100; font-size: 2em">사물함 내부의 불이 켜집니다</h3>
       <div class="center">
 
-        <div class="button" onclick="location.href='/payment'" style="text-align: center; font-weight: 500; font-size: 1.5em">
+        <div class="button" onclick="order()" style="text-align: center; font-weight: 500; font-size: 1.5em">
           상태가 좋아요 구매할래요!
         </div>
           <br>
@@ -27,6 +27,25 @@
 </form>
 </body>
 <script>
+  
+  function order(){
+    console.log("{{productId}}")
+    fetch("http://localhost:8080/api/kakao/ready/"+"{{productId}}").then(
+      (response) =>{
+        console.log(Response)
+        return response.json();  
+      }
+    ).then(
+      (json)=>{
+        console.log(json)
+        console.log(json.data.next_redirect_pc_url)
+        const next_url =json.data.next_redirect_pc_url
+        window.location.href=json.data.next_redirect_pc_url 
+      }
+    )
+      
+  
+  }
   
 </script>
 <style>
