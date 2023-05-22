@@ -6,51 +6,28 @@ def main():
     return render_template('main.html')
 
 
-# 공통 페이지
+# 공통 완료 
+@app.route('/payment_completed/')
+def payment_completed():
 
-@app.route('/selectlocker')
-def selectlocker():
-    usertype = request.args.get('usertype', default = '', type = str)
-    print(usertype)
-    if   usertype == "sell":
-        return render_template('selectlocker.html', data = usertype)
-    elif usertype ==  "buy":
-        return render_template('selectlocker.html', data = usertype)
-    else:
-        return render_template('main.html', error = "잘못된 접근입니다(사용자 타입 누락)")
-
-@app.route('/passwd')
-def passwd():
-    usertype = request.args.get('usertype', default = '', type = str)
-    if   usertype == "sell":
-        return render_template('passwd.html', data = usertype)
-    elif usertype ==  "buy":
-        return render_template('passwd.html', data = usertype)
-    else:
-        return render_template('main.html', error = "잘못된 접근입니다(사용자 타입 누락)")
+    return render_template('payment_completed.html')
 
 
-# 구매자 페이지
-@app.route('/preview/<product_id>')
-def preview(product_id):
-    productId = product_id
-    return render_template('preview.html', productId = productId)
-
-@app.route('/payment')
-def payment():
-    return render_template('payment.html')
+@app.route('/payment_inprogess/')
+def payment_inprogess():
+    # http://59.26.59.60:5000/payment_inprogess?productId=1&pg_token=b09338b8b5feea68a188
+    productId = request.args.get('productId')
+    pg_token  = request.args.get('pg_token')
+    return render_template('payment_inprogess.html',productId=productId, data = pg_token)
 
 
-# 판매자 페이지
-@app.route('/register')
-def register():
-    return render_template('register.html')
+@app.route('/payment/')
+def payment_root():
 
-@app.route('/thankyou')
-def thankyou():
-    return render_template('thankyou.html')
+    pg_token = request.args.get('pg_token', default = '', type = str)
+    print(pg_token)
 
+    return render_template('payment_completed.html', data = pg_token)
 
-
-
-app.run(host='localhost', port = 80)
+if __name__ == "__main__":
+    app.run(host="192.168.0.106", port=5000)

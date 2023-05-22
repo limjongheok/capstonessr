@@ -10,43 +10,32 @@
 <body>
     <div id="cover">
       <br><br>
-      <div style="padding-left: 20px; font-weight: 900; font-size: 5em;"><br>제품의 상태를 <br>확인해 주세요</div>
-      <h3 style="padding-left: 20px; font-weight: 100; font-size: 2em">사물함 내부의 불이 켜집니다</h3>
+      <div style="padding-left: 20px; font-weight: 900; font-size: 5em;"><br>결제 중입니다</div>
+      <h3 style="padding-left: 20px; font-weight: 100; font-size: 2em">잠시만 기다려수세요!</h3>
       <div class="center">
-
-        <div class="button" onclick="order()" style="text-align: center; font-weight: 500; font-size: 1.5em">
-          상태가 좋아요 구매할래요!
+        <br><br>
+        <!-- <img src="{{ url_for('static', filename='completed.png') }}" style="height: 350px; width: 350px; margin: 20px; padding: 50px;">
+        <div class="button" onclick="redirect()" style="text-align: center; font-weight: 500; font-size: 1.5em">
+            알았어요!
         </div>
           <br>
-        <div class="button_no" onclick="location.href='/selectlocker?usertype=sell'" style="text-align: center; font-weight: 500; font-size: 1.5em">
-          상태가 마음에 들지 않아요<br> 구매하지 않을래요
-        </div>
+        <div class="button_no" onclick="location.href='/'" style="text-align: center; font-weight: 500; font-size: 1.5em">
+            문이 안 열려요!
+        </div> -->
 
       </div>
     </div> 
 </form>
 </body>
 <script>
-  
-  function order(){
-    console.log("{{productId}}")
-    fetch("http://localhost:8080/api/kakao/ready/"+"{{productId}}").then(
-      (response) =>{
-        console.log(Response)
-        return response.json();  
-      }
-    ).then(
-      (json)=>{
-        console.log(json)
-        console.log(json.data.next_redirect_pc_url)
-        const next_url =json.data.next_redirect_pc_url
-        window.location.href=json.data.next_redirect_pc_url 
-      }
-    )
-      
-  
-  }
-  
+    fetch("http://59.26.59.60:8080/api/kakao/success/"+"{{productId}}"+"?pg_token="+'{{data}}').then(
+            (response)=>{
+                if(response.status==200){
+                    console.log(response.status);
+                    window.location.href ="/payment_completed";
+                }
+            }
+        )
 </script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
@@ -90,7 +79,7 @@ body{
 
 .center{
     position: absolute;
-    top: 70%;
+    top: 65%;
     left: 50%;
 
     transform: translate(-50%, -50%);
